@@ -4,6 +4,7 @@ select
     paymentmethod as payment_method,
     status,
     created as created_at,
-    amount/100 as amount
+    {{ cents_to_dollars('amount',2) }} as amount
 
 from {{ source('stripe','payment') }}
+{{ limit_data_in_dev('dev','created_at',20) }}
